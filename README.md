@@ -1,170 +1,105 @@
-﻿Creating Windows and Linux Virtual Machines on Microsoft Azure
-________________
+# Creating Windows and Linux Virtual Machines on Microsoft Azure
 
+This tutorial walks you through creating a Windows 11 and an Ubuntu Linux virtual machine using the Microsoft Azure Portal. Screenshots included to guide your steps.
 
-* A Windows 11 VM
-* An Ubuntu Linux VM
-________________
+---
 
+## Step 1: Open the Azure Portal
 
-Open the Azure Portal
-1. Go to https://portal.azure.com
-2. From the dashboard, click Virtual Machines or Create a resource
-  
+Go to: https://portal.azure.com  
+<img src="images/image1.png" width="600"/>
 
-________________
+---
 
+## Step 2: Create a Resource Group
 
-Create a Resource Group
-1. Click Resource groups in the left menu
-2. Click + Create
-3. Name the group RG-Network-Activities (any name that you want)
-4. Set Region to (US) East US 2
-5. Click Review + create, then click Create
-  
+1. Click **Resource groups** in the left menu  
+2. Click **+ Create**  
+3. Name it `RG-Network-Activities` (or a name of your choice)  
+4. Set Region to `(US) East US 2`  
+5. Click **Review + create**, then **Create**  
+<img src="images/image2.png" width="600"/>
 
-________________
+---
 
+## Step 3: Create a Windows Virtual Machine
 
-Create a Windows Virtual Machine
-1. Go to Virtual Machines
-2. Click + Create → Azure virtual machine
-3. Select the Resource Group RG-Network-Activities
-  
+1. Go to **Virtual Machines**  
+2. Click **+ Create → Azure virtual machine**  
+3. Select the Resource Group  
+4. Fill in basic details:  
+   - Name: `windows-vm`  
+   - Image: `Windows 11 Pro`  
+   - Size: `Standard_D2s_v3`  
+   - Username: `labuser`  
+   - Password: Your secure password  
+   - Allow RDP (3389)  
+<img src="images/image3.png" width="600"/>
 
+---
 
+## Step 4: Create a Linux Virtual Machine
 
-________________
+Repeat the same process but use:  
+- Name: `linux-vm`  
+- Image: `Ubuntu Server 22.04 or 24.04 LTS`  
+- Allow SSH (22)  
+<img src="images/image4.png" width="600"/>
 
+---
 
-Configure the Windows VM
-Basic Tab Setup:
-* VM Name: windows-vm (any name that you want).
-* Region: East US 2 (same region as the Resource Group for purposes of this exercise)
-* Availability Zone: Zone 1
-* Image: Windows 11 Pro, version 24H2 - x64 Gen2
-* Size: Standard_D2s_v3
-* Security Type: Trusted launch virtual machines
-* Username: labuser
-* Password: Your secure password
-* Public inbound ports: Allow RDP (3389)
-* Be sure to click the confirm that you have eligible Windows 10/11 license with multi-tenant hosting rights at the bottom of the screen
-* Disk, Networking, Management, Monitoring, Advanced & Tags (for purposes of this exercise we’ll skip these steps, we don’t need to change or add anything here)
-* Click Review & Create and start the deployment process
-* After clicking review and create and after the Validation Test has passed
-  
+## Step 5: Configure Disks
 
-  
+- Use **Premium SSD**  
+- Enable auto-delete on VM delete  
+<img src="images/image5.png" width="600"/>
 
-Deployment Configuration Completion
-*  It is good practice to go back to the Virtual Machines and double check the VM is running
+---
 
+## Step 6: Configure Networking
 
-  
+- Use the same virtual network as `windows-vm`  
+- Ensure public IP is assigned  
+- Allow necessary ports  
+<img src="images/image6.png" width="600"/>
 
+---
 
+## Step 7: Skip Unnecessary Tabs
 
-________________
+- Skip **Management**, **Monitoring**, **Advanced**, **Tags** (not essential for labs)
 
+---
 
-Create a Linux Virtual Machine
-4. Go to Virtual Machines
-5. Click + Create → Azure virtual machine
-6. Select the Resource Group RG-Network-Activities
-  
+## Step 8: Review and Create
 
+Azure validates the config. If passed, click **Create**  
+<img src="images/image7.png" width="600"/>
 
+---
 
+## Step 9: Deployment Progress and Completion
 
+- Wait for "Deployment Succeeded"
+- Click **Go to resource**  
+<img src="images/image8.png" width="600"/>
 
+---
 
+## Step 10: Verify Virtual Machines
 
-________________
+Check that both VMs are **running** with assigned Public IPs  
+<img src="images/image9.png" width="600"/>
 
+---
 
-Basic Tab Setup:
-* VM Name: linux-vm
-* Image: Ubuntu Server 22.04 or 24.04 LTS
-* Authentication Type: Password
-* Username: labuser
-* Password: Your secure password
-* Public inbound ports: Allow SSH (22)
-* Keep the other settings consistent with the Windows VM
-  
+## ✅ Best Practices
 
-________________
+- Shutdown unused VMs to save cost  
+- Use NSGs and restricted IPs  
+- Use Bastion or VPN for secure access  
+- Apply tags for better resource management  
 
+---
 
-Configure Disks
-* Disk Type: Premium SSD
-* Leave default size and redundancy (locally-redundant)
-* Check the option to Delete disk when VM is deleted
-  
-
-________________
-Configure Networking
-* Virtual Network: We’ll use the windows-vm network that  we just created
-* Public IP: Automatically assigned
-* NIC Security Group: Basic
-* Public inbound ports:
-   * Windows VM: RDP (3389)
-   * Linux VM: SSH (22)
-* Leave Accelerated Networking enabled
-  
-
-________________
-
-
-Why We Skip the Remaining Tabs (Management, Monitoring, Advanced, Tags)
-These tabs are optional and not necessary for basic setups or practice labs:
-* Management: Enables auto-shutdown, backup, and diagnostics, useful later but not needed for testing.
-* Monitoring: You can configure insights and metrics later if desired.
-* Advanced: Not required unless you need VM extensions or custom scripts.
-* Tags: Useful in enterprise environments for cost tracking, optional for personal use.
-________________
-
-
-Review and Create
-* Azure runs a validation check.
-* If successful, click Create to begin deployment.
-  
-
-________________
-
-
-Deployment Progress
-Azure will begin provisioning resources:
-* Virtual Network
-* Subnet
-* NSG (Network Security Group)
-* Public IP
-* Disk and NIC
-  
-
-________________
-
-
-Deployment Complete
-After a few minutes, you’ll see Deployment Succeeded.
-Click Go to resource to view your new virtual machine.
-  
-
-________________
-
-
-Verify Virtual Machines
-Go back to the Virtual Machines panel.
-Confirm both windows-vm and linux-vm show status as Running and have public IP addresses assigned.
-  
-
-
-
-________________
-
-
-Best Practices
-* Shutdown unused VMs to avoid charges
-* Use NSG rules to secure access (don’t allow all IPs in production)
-* Consider Azure Bastion or VPN for secure remote access
-* Use Tags when working with multiple environments or users
-________________
+*This guide was created for training and learning purposes on Microsoft Azure.*
